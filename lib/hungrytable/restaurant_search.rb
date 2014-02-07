@@ -1,6 +1,7 @@
 module Hungrytable
   class RestaurantSearch
     include RequestExtensions
+    include ResponseAccessors
 
     attr_reader :restaurant, :opts
 
@@ -12,7 +13,7 @@ module Hungrytable
     end
 
     def valid?
-      error_ID == "0"
+      error_id == "0"
     end
 
     def method_missing meth, *args, &blk

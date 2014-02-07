@@ -1,6 +1,7 @@
 module Hungrytable
   class ReservationMake
     include RequestExtensions
+    include ResponseAccessors
 
     attr_reader :restaurant_slotlock, :opts
 
@@ -12,7 +13,7 @@ module Hungrytable
     end
 
     def successful?
-      details["ns:ErrorID"] == "0"
+      error_id == "0"
     end
 
     def confirmation_number

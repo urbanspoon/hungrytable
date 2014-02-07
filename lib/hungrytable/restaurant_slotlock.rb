@@ -1,6 +1,7 @@
 module Hungrytable
   class RestaurantSlotlock
     include RequestExtensions
+    include ResponseAccessors
 
     attr_reader :restaurant_search
 
@@ -10,7 +11,7 @@ module Hungrytable
     end
 
     def successful?
-      details["ns:ErrorID"] == "0"
+      error_id == "0"
     end
 
     def errors
