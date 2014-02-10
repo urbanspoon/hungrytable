@@ -4,11 +4,11 @@ module Hungrytable
     include ResponseAccessors
 
     attr_reader :restaurant_search
-    attr_reader :security_id, :time, :results_key, :restaurant_id, :party_size
+    attr_reader :time_security_id, :time, :results_key, :restaurant_id, :party_size
 
     def initialize reservation_attributes, requester = PostRequest
-      @security_id = reservation_attributes[:security_id]
-      @time = reservation_attributes[:time]
+      @time_security_id = reservation_attributes[:time_security_id]
+      @time = reservation_attributes[:datetime]
       @results_key = reservation_attributes[:results_key]
       @restaurant_id = reservation_attributes[:restaurant_id]
       @party_size = reservation_attributes[:party_size]
@@ -33,7 +33,7 @@ module Hungrytable
         RID:            restaurant_id,
         datetime:       time,
         partysize:      party_size,
-        timesecurityID: security_id,
+        timesecurityID: time_security_id,
         resultskey:     results_key
       }
     end

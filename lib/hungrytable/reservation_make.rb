@@ -5,8 +5,8 @@ module Hungrytable
 
     attr_reader :opts
 
-    def initialize params, requester = PostRequest
-      @opts = params
+    def initialize p, requester = PostRequest
+      @opts = api_params(p)
       @requester = requester
       ensure_required_opts
     end
@@ -29,8 +29,23 @@ module Hungrytable
       }
     end
 
+    def api_params p
+      {
+          email_address:  p[:email],
+          firstname:      p[:first_name],
+          lastname:       p[:last_name],
+          phone:          p[:phone],
+          RID:            p[:restaurant_id],
+          datetime:       p[:datetime],
+          partysize:      p[:party_size],
+          timesecurityID: p[:time_security_id],
+          resultskey:     p[:results_key],
+          slotlockid:     p[:slotlock_id]
+      }
+    end
+
     def params
-      default_options.merge(opts)
+      default_options.merge(@opts)
     end
 
     private
