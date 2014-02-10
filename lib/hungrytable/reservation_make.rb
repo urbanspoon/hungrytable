@@ -3,13 +3,12 @@ module Hungrytable
     include RequestExtensions
     include ResponseAccessors
 
-    attr_reader :restaurant_slotlock, :opts
+    attr_reader :opts
 
-    def initialize restaurant_slotlock, opts={}
-      @opts = opts
+    def initialize params, requester = PostRequest
+      @opts = params
+      @requester = requester
       ensure_required_opts
-      @requester           = opts[:requester] || PostRequest
-      @restaurant_slotlock = restaurant_slotlock
     end
 
     def successful?
@@ -21,23 +20,22 @@ module Hungrytable
       details["ns:ConfirmationNumber"]
     end
 
-    private
-    def required_opts
-      %w(email_address firstname lastname phone).map(&:to_sym)
-    end
-
     def default_options
       {
-        'OTannouncementOption' => '0',
-        'RestaurantEmailOption' => '0',
-        'firsttimediner' => '0',
-        'specialinstructions' => 'Have a great time',
-        'slotlockid' => restaurant_slotlock.slotlock_id
-      }.merge(restaurant_slotlock.params)
+        OTannouncementOption: 0,
+        RestaurantEmailOption: 0,
+        firsttimediner: 0,
+        specialinstructions: 'none'
+      }
     end
 
     def params
       default_options.merge(opts)
+    end
+
+    private
+    def required_opts
+      %w(email_address firstname lastname phone RID datetime partysize timesecurityID resultskey slotlockid).map(&:to_sym)
     end
 
     def request_uri

@@ -30,11 +30,11 @@ module Hungrytable
 
     def params
       {
-        'RID'            => restaurant_id,
-        'datetime'       => time,
-        'partysize'      => party_size,
-        'timesecurityID' => security_id,
-        'resultskey'     => results_key
+        RID:            restaurant_id,
+        datetime:       time,
+        partysize:      party_size,
+        timesecurityID: security_id,
+        resultskey:     results_key
       }
     end
 
@@ -44,7 +44,7 @@ module Hungrytable
     end
 
     def details
-      request.parsed_response["SlotLockResults"]
+      request.parsed_response["SlotLockResults"] || request.parsed_response["CreditCardSlotLockResults"] # FIXME: should not use CCSlotLockResults
     end
 
   end
