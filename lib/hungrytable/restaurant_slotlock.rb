@@ -4,10 +4,15 @@ module Hungrytable
     include ResponseAccessors
 
     attr_reader :restaurant_search
+    attr_reader :security_id, :time, :results_key, :restaurant_id, :party_size
 
-    def initialize restaurant_search, requester=PostRequest
-      @restaurant_search = restaurant_search
-      @requester         = requester
+    def initialize reservation_attributes, requester = PostRequest
+      @security_id = reservation_attributes[:security_id]
+      @time = reservation_attributes[:time]
+      @results_key = reservation_attributes[:results_key]
+      @restaurant_id = reservation_attributes[:restaurant_id]
+      @party_size = reservation_attributes[:party_size]
+      @requester = requester
     end
 
     def successful?
@@ -25,21 +30,17 @@ module Hungrytable
 
     def params
       {
-        'RID'            => restaurant.id,
-        'datetime'       => restaurant_search.ideal_time,
-        'partysize'      => restaurant_search.party_size,
-        'timesecurityID' => restaurant_search.ideal_security_id,
-        'resultskey'     => restaurant_search.results_key
+        'RID'            => restaurant_id,
+        'datetime'       => time,
+        'partysize'      => party_size,
+        'timesecurityID' => security_id,
+        'resultskey'     => results_key
       }
     end
 
     private
     def request_uri
       "/slotlock/?pid=#{Config.partner_id}&st=0"
-    end
-
-    def restaurant
-      restaurant_search.restaurant
     end
 
     def details
