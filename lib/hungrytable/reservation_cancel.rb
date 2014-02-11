@@ -3,29 +3,29 @@ module Hungrytable
     include RequestExtensions
     include ResponseAccessors
 
-    attr_reader :opts
-
-    def initialize opts={}
-      @opts = opts
-      ensure_required_opts
-      @requester = opts[:requester] || GetRequest
-    end
-
-    def successful?
-      error_id == "0"
+    def initialize params
+      @params = params
+      ensure_required_params
+      @requester = GetRequest
     end
 
     private
+
+    def params
+      {
+        rid: @params[:restaurant_id],
+        conf: @params[:confirmation_number],
+        email: @params[:email]
+      }
+    end
+
+    def required_params
+      %w(restaurant_id confirmation_number email).map(&:to_sym)
+    end
+
     def request_uri
-      "/reservation/?pid=#{Config.partner_id}&rid=#{opts[:restaurant_id]}&conf=#{opts[:confirmation_number]}&email=#{CGI.escape(opts[:email_address])}"
+      "/reservation/?pid=#{Config.partner_id}&rid=#{params[:rid]}&conf=#{params[:conf]}&email=#{CGI.escape(params[:email])}"
     end
 
-    def details
-      request.parsed_response["Results"]
-    end
-
-    def required_opts
-      %w(email_address confirmation_number restaurant_id).map(&:to_sym)
-    end
   end
 end

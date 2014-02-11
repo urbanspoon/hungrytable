@@ -2,12 +2,16 @@ module Hungrytable
   module ResponseAccessors
     extend ActiveSupport::Concern
 
+    def successful?
+      error_id == '0'
+    end
+
     def error_id
-      details["ns:ErrorID"]
+      response["ErrorID"]
     end
 
     def error_message
-      details["ns:ErrorMessage"]
+      response["ErrorMessage"]
     end
 
   end
