@@ -17,7 +17,6 @@ module Hungrytable
       required_params.each do |key|
         raise ArgumentError, "missing parameter: #{key}" unless @params.has_key?(key)
       end
-
     end
 
     # Will be overwritten in objects that send post requests

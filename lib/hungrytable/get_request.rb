@@ -1,5 +1,6 @@
 module Hungrytable
   class GetRequest < Request
+
     private
     def auth_header
       Hungrytable::RequestHeader.new(:get, @uri, {}, {})
