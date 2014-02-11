@@ -21,13 +21,9 @@ module Hungrytable
     def params
       {
         rid: @params[:restaurant_id],
-        dt: formatted_date_time,
+        dt: encode_date_time,
         ps: @params[:party_size]
       }
-    end
-
-    def formatted_date_time
-      @params[:date_time].respond_to?(:strftime) ? encoded_date_time : @params[:date_time]
     end
 
     def encode_date_time
